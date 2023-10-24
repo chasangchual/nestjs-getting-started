@@ -2,11 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { UsersService } from 'src/users/users.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class GroupsService {
   @Inject(UsersService)
   private readonly userService: UsersService;
+
+  constructor(private prisma: PrismaService) {}
 
   create(createGroupDto: CreateGroupDto) {
     return 'This action adds a new group';
