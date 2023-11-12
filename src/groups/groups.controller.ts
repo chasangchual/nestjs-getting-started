@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { DoNothingInterceptor } from 'src/interceptors/nothing.interceptor';
 
 @Controller('groups')
 export class GroupsController {

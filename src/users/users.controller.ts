@@ -12,6 +12,8 @@ import {
   ParseIntPipe,
   HttpStatus,
   ValidationPipe,
+  UseInterceptors,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,7 +21,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Request, Response } from 'express';
 import { AppendPrefixPipe } from 'src/pipes/append-prefix.pipe';
 import { CreateUserRequestValidator } from 'src/pipes/create-user-dto-validation.pipe';
+import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
+import { ErrorsInterceptor } from 'src/interceptors/error.interceptor';
 
+// @UseInterceptors(LoggingInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -40,11 +45,14 @@ export class UsersController {
   // }
 
   @Header('WhoIAm', 'Sagchual CHA')
+  @UseInterceptors(LoggingInterceptor)
   @Get()
   findAll() {
+    console.log('it will load all users');
     return this.usersService.findAll();
   }
 
+  @UseInterceptors(ErrorsInterceptor)
   @Get(':id')
   findOne(
     @Param('id', new AppendPrefixPipe('XXX_'))

@@ -16,7 +16,6 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    console.log('33333333');
     const a: string = `This action returns a #${id} user`;
     console.log(id);
     return a;
